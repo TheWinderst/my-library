@@ -15,9 +15,6 @@
         <ul>
           <li><a href="#" onclick="showSection('add-book')">Kitap Ekle</a></li>
           <li><a href="#" onclick="showSection('my-library')">Kütüphanem</a></li>
-          <li><a href="#" id="theme-toggle" onclick="toggleTheme()">
-            <img id="theme-icon" src="moon.svg" alt="Toggle Theme">
-          </a></li>
           <li><a href="#" id="language-toggle" onclick="changeLanguage()">Dil Değiştir</a></li>
         </ul>
       </nav>
@@ -64,6 +61,10 @@
       <ul id="book-list"></ul>
     </section>
   </main>
+
+  <div id="theme-toggle" onclick="toggleTheme()">
+    <img id="theme-icon" src="moon.svg" alt="Toggle Theme">
+  </div>
 
   <script src="script.js"></script>
 </body>
