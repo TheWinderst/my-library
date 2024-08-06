@@ -72,11 +72,8 @@ function toggleTheme() {
   body.classList.toggle('dark-theme');
   
   const themeIcon = document.getElementById('theme-icon');
-  if (body.classList.contains('dark-theme')) {
-    themeIcon.src = 'sun.svg';
-  } else {
-    themeIcon.src = 'moon.svg';
-  }
+  themeIcon.classList.toggle('moon');
+  themeIcon.classList.toggle('sun');
 }
 
 function changeLanguage() {
@@ -86,3 +83,13 @@ function changeLanguage() {
 function closeBanner() {
   document.getElementById('warning-banner').style.display = 'none';
 }
+
+// Başlangıçta tema simgesini ayarla
+document.addEventListener('DOMContentLoaded', () => {
+  const themeIcon = document.getElementById('theme-icon');
+  if (document.body.classList.contains('dark-theme')) {
+    themeIcon.classList.add('sun');
+  } else {
+    themeIcon.classList.add('moon');
+  }
+});
