@@ -7,20 +7,25 @@ document.getElementById('isbn-form').addEventListener('submit', function(e) {
     .then(response => response.json())
     .then(data => {
       const bookInfo = data[`ISBN:${isbn}`];
+      const isbnResults = document.getElementById('isbn-results');
+      isbnResults.innerHTML = ''; // Önceki sonuçları temizle
       if (bookInfo) {
         const li = document.createElement('li');
         li.innerHTML = `
           <h3>${bookInfo.title}</h3>
-          <p>Yazar: ${bookInfo.authors.map(author => author.name).join(', ')}</p>
-          <p>Yayıncı: ${bookInfo.publishers.map(publisher => publisher.name).join(', ')}</p>
-          <p>${bookInfo.publish_date}</p>
-          <button class="btn" onclick="addToLibrary('${bookInfo.title}', '${bookInfo.authors.map(author => author.name).join(', ')}', '${bookInfo.publishers.map(publisher => publisher.name).join(', ')}', '${bookInfo.publish_date}')">Kütüphaneye Ekle</button>
+          <p>Yazar: ${bookInfo.authors ? bookInfo.authors.map(author => author.name).join(', ') : 'Bilinmiyor'}</p>
+          <p>Yayıncı: ${bookInfo.publishers ? bookInfo.publishers.map(publisher => publisher.name).join(', ') : 'Bilinmiyor'}</p>
+          <p>Yayın Tarihi: ${bookInfo.publish_date || 'Bilinmiyor'}</p>
+          <button class="btn" onclick="addToLibrary('${bookInfo.title}', '${bookInfo.authors ? bookInfo.authors.map(author => author.name).join(', ') : 'Bilinmiyor'}', '${bookInfo.publishers ? bookInfo.publishers.map(publisher => publisher.name).join(', ') : 'Bilinmiyor'}', '${bookInfo.publish_date || 'Bilinmiyor'}')">Kütüphaneye Ekle</button>
         `;
-        document.getElementById('isbn-results').appendChild(li);
+        isbnResults.appendChild(li);
       } else {
-        alert('Kitap bulunamadı.');
+        const li = document.createElement('li');
+        li.innerHTML = '<p>Kitap bulunamadı.</p>';
+        isbnResults.appendChild(li);
       }
-    });
+    })
+    .catch(error => console.error('Error fetching book data:', error));
 });
 
 document.getElementById('manual-form').addEventListener('submit', function(e) {
@@ -39,12 +44,12 @@ document.getElementById('manual-form').addEventListener('submit', function(e) {
     ${pdf ? `<p><a href="${URL.createObjectURL(pdf)}" target="_blank">PDF'yi Oku</a></p>` : ''}
     <button class="btn" onclick="addToLibrary('${title}', '${author}', '', '${description}', '${pdf ? URL.createObjectURL(pdf) : ''}')">Kütüphaneye Ekle</button>
   `;
-  document.getElementById('book-list').appendChild(li);
+  document.getElementById('isbn-results').appendChild(li);
 
   document.getElementById('manual-form').reset();
 });
 
-function addToLibrary(title, author, publisher, description, pdfUrl) {
+function addToLibrary(title, author, publisher, description, pdfUrl = '') {
   const li = document.createElement('li');
   li.innerHTML = `
     <h3>${title}</h3>
