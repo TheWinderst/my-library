@@ -131,14 +131,14 @@ textarea {
   cursor: pointer;
 }
 
-#theme-toggle {
+.theme-toggle {
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: var(--primary-color);
-  border-radius: 50%;
   width: 50px;
   height: 50px;
+  border-radius: 50%;
+  background-color: var(--primary-color);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -146,14 +146,23 @@ textarea {
   transition: background-color 0.3s;
 }
 
-#theme-toggle img {
+.theme-icon {
   width: 24px;
   height: 24px;
+  background-size: cover;
   transition: transform 0.3s;
 }
 
-#theme-toggle:hover {
+.theme-toggle:hover {
   background-color: var(--secondary-color);
+}
+
+.theme-toggle .sun {
+  background-image: url('sun.svg');
+}
+
+.theme-toggle .moon {
+  background-image: url('moon.svg');
 }
 
 .search-results {
@@ -163,6 +172,14 @@ textarea {
 
 .search-results li {
   background-color: #e9e9e9;
+  margin: 10px 0;
+  padding: 10px;
+  border-radius: 8px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+}
+
+#book-list li {
+  background-color: #f9f9f9;
   margin: 10px 0;
   padding: 10px;
   border-radius: 8px;
