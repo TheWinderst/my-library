@@ -131,10 +131,29 @@ textarea {
   cursor: pointer;
 }
 
-#theme-toggle img, #language-toggle {
+#theme-toggle {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#theme-toggle img {
   width: 24px;
   height: 24px;
-  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+#theme-toggle:hover {
+  background-color: var(--secondary-color);
 }
 
 .search-results {
