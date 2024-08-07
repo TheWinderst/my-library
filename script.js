@@ -50,36 +50,75 @@ document.getElementById('manual-form').addEventListener('submit', function(e) {
 });
 
 function addToLibrary(title, author, publisher, description, pdfUrl = '') {
-  const li = document.createElement('li');
-  li.innerHTML = `
-    <h3>${title}</h3>
-    <p>Yazar: ${author}</p>
-    <p>Yayıncı: ${publisher}</p>
-    <p>Açıklama: ${description}</p>
-    ${pdfUrl ? `<p><a href="${pdfUrl}" target="_blank">PDF'yi Oku</a></p>` : ''}
-    <button class="red-btn" onclick="removeFromLibrary(this)">Kitabı Kaldır</button>
-    <button class="blue-btn" onclick="editBook('${title}', '${author}', '${publisher}', '${description}', '${pdfUrl}')">Kitabı Düzenle</button>
-  `;
-  document.getElementById('book-list').appendChild(li);
+  const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+  bookList.push({ title, author, publisher, description, pdfUrl });
+  localStorage.setItem('bookList', JSON.stringify(bookList));
+  renderLibrary();
 }
 
-function removeFromLibrary(button) {
-  const li = button.parentElement;
-  li.remove();
+function removeFromLibrary(index) {
+  const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+  bookList.splice(index, 1);
+  localStorage.setItem('bookList', JSON.stringify(bookList));
+  renderLibrary();
 }
 
-function editBook(title, author, publisher, description, pdfUrl) {
-  document.getElementById('title').value = title;
-  document.getElementById('author').value = author;
-  document.getElementById('description').value = description;
-  document.getElementById('pdf').value = '';
-  showSection('add-book');
+function editBook(index) {
+  const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+  const book = bookList[index];
+  document.getElementById('edit-title').value = book.title;
+  document.getElementById('edit-author').value = book.author;
+  document.getElementById('edit-description').value = book.description;
+  document.getElementById('edit-form').onsubmit = function(e) {
+    e.preventDefault();
+    bookList[index] = {
+      title: document.getElementById('edit-title').value,
+      author: document.getElementById('edit-author').value,
+      publisher: book.publisher,
+      description: document.getElementById('edit-description').value,
+      pdfUrl: book.pdfUrl
+    };
+    localStorage.setItem('bookList', JSON.stringify(bookList));
+    renderLibrary();
+    hideEditForm();
+  };
+  showEditForm();
+}
+
+function renderLibrary() {
+  const bookList = JSON.parse(localStorage.getItem('bookList')) || [];
+  const bookListElement = document.getElementById('book-list');
+  bookListElement.innerHTML = '';
+  bookList.forEach((book, index) => {
+    const li = document.createElement('li');
+    li.innerHTML = `
+      <h3>${book.title}</h3>
+      <p>Yazar: ${book.author}</p>
+      <p>Yayıncı: ${book.publisher}</p>
+      <p>Açıklama: ${book.description}</p>
+      ${book.pdfUrl ? `<p><a href="${book.pdfUrl}" target="_blank">PDF'yi Oku</a></p>` : ''}
+      <button class="red-btn" onclick="removeFromLibrary(${index})">Kitabı Kaldır</button>
+      <button class="blue-btn" onclick="editBook(${index})">Kitabı Düzenle</button>
+    `;
+    bookListElement.appendChild(li);
+  });
 }
 
 function showSection(sectionId) {
   document.querySelectorAll('.content-section').forEach(section => {
     section.style.display = section.id === sectionId ? 'block' : 'none';
   });
+  if (sectionId === 'my-library') {
+    renderLibrary();
+  }
+}
+
+function showEditForm() {
+  document.getElementById('edit-book-form').style.display = 'block';
+}
+
+function hideEditForm() {
+  document.getElementById('edit-book-form').style.display = 'none';
 }
 
 function toggleTheme() {
@@ -99,7 +138,7 @@ function closeBanner() {
   document.getElementById('warning-banner').style.display = 'none';
 }
 
-// Başlangıçta tema simgesini ayarla
+// Başlangıçta tema simgesini ayarla ve kütüphaneyi yükle
 document.addEventListener('DOMContentLoaded', () => {
   const themeIcon = document.getElementById('theme-icon');
   if (document.body.classList.contains('dark-theme')) {
@@ -107,4 +146,5 @@ document.addEventListener('DOMContentLoaded', () => {
   } else {
     themeIcon.classList.add('moon');
   }
+  renderLibrary();
 });
