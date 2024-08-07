@@ -57,8 +57,23 @@ function addToLibrary(title, author, publisher, description, pdfUrl = '') {
     <p>Yayıncı: ${publisher}</p>
     <p>Açıklama: ${description}</p>
     ${pdfUrl ? `<p><a href="${pdfUrl}" target="_blank">PDF'yi Oku</a></p>` : ''}
+    <button class="red-btn" onclick="removeFromLibrary(this)">Kitabı Kaldır</button>
+    <button class="blue-btn" onclick="editBook('${title}', '${author}', '${publisher}', '${description}', '${pdfUrl}')">Kitabı Düzenle</button>
   `;
   document.getElementById('book-list').appendChild(li);
+}
+
+function removeFromLibrary(button) {
+  const li = button.parentElement;
+  li.remove();
+}
+
+function editBook(title, author, publisher, description, pdfUrl) {
+  document.getElementById('title').value = title;
+  document.getElementById('author').value = author;
+  document.getElementById('description').value = description;
+  document.getElementById('pdf').value = '';
+  showSection('add-book');
 }
 
 function showSection(sectionId) {
