@@ -59,6 +59,19 @@
     <section id="my-library" class="content-section" style="display:none;">
       <h2>Kütüphanem</h2>
       <ul id="book-list"></ul>
+      <div id="edit-book-form" style="display:none;">
+        <h3>Kitap Düzenle</h3>
+        <form id="edit-form">
+          <label for="edit-title">Başlık:</label>
+          <input type="text" id="edit-title" name="edit-title" class="input-field"><br>
+          <label for="edit-author">Yazar:</label>
+          <input type="text" id="edit-author" name="edit-author" class="input-field"><br>
+          <label for="edit-description">Açıklama:</label>
+          <textarea id="edit-description" name="edit-description" class="input-field"></textarea><br>
+          <button type="submit" class="btn">Kaydet</button>
+          <button type="button" class="btn" onclick="hideEditForm()">İptal</button>
+        </form>
+      </div>
     </section>
   </main>
 
