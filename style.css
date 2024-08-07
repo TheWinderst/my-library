@@ -146,14 +146,14 @@ textarea {
   justify-content: center;
   align-items: center;
   cursor: pointer;
-  transition: background-color 0.3s, border-color 0.3s;
+  transition: background-color 0.3s, border-color 0.3s, transform 0.5s;
 }
 
 .theme-icon {
   width: 24px;
   height: 24px;
   background-size: cover;
-  transition: transform 0.3s;
+  transition: transform 0.5s;
 }
 
 .theme-toggle:hover {
