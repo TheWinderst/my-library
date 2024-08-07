@@ -127,16 +127,25 @@ function hideEditForm() {
 function toggleTheme() {
   const body = document.body;
   const themeToggle = document.getElementById('theme-toggle');
+  const themeIcon = document.getElementById('theme-icon');
+  
   body.classList.toggle('dark-theme');
+  
   if (body.classList.contains('dark-theme')) {
     themeToggle.style.backgroundColor = 'var(--theme-toggle-bg-night)';
+    themeIcon.classList.remove('sun');
+    themeIcon.classList.add('moon');
   } else {
     themeToggle.style.backgroundColor = 'var(--theme-toggle-bg-day)';
+    themeIcon.classList.remove('moon');
+    themeIcon.classList.add('sun');
   }
 
-  const themeIcon = document.getElementById('theme-icon');
-  themeIcon.classList.toggle('moon');
-  themeIcon.classList.toggle('sun');
+  // Güneşin batışı ve ayın çıkışı animasyonu
+  themeIcon.style.transform = 'translateY(0)';
+  setTimeout(() => {
+    themeIcon.style.transform = 'translateY(100%)';
+  }, 250);
 }
 
 function changeLanguage() {
