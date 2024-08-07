@@ -33,6 +33,7 @@ document.getElementById('manual-form').addEventListener('submit', function(e) {
   
   const title = document.getElementById('title').value;
   const author = document.getElementById('author').value;
+  const publisher = document.getElementById('publisher').value;
   const description = document.getElementById('description').value;
   const pdf = document.getElementById('pdf').files[0];
   
@@ -40,9 +41,10 @@ document.getElementById('manual-form').addEventListener('submit', function(e) {
   li.innerHTML = `
     <h3>${title}</h3>
     <p>Yazar: ${author}</p>
+    <p>Yayınevi: ${publisher}</p>
     <p>Açıklama: ${description}</p>
     ${pdf ? `<p><a href="${URL.createObjectURL(pdf)}" target="_blank">PDF'yi Oku</a></p>` : ''}
-    <button class="btn" onclick="addToLibrary('${title}', '${author}', '', '${description}', '${pdf ? URL.createObjectURL(pdf) : ''}')">Kütüphaneye Ekle</button>
+    <button class="btn" onclick="addToLibrary('${title}', '${author}', '${publisher}', '${description}', '${pdf ? URL.createObjectURL(pdf) : ''}')">Kütüphaneye Ekle</button>
   `;
   document.getElementById('isbn-results').appendChild(li);
 
@@ -68,13 +70,14 @@ function editBook(index) {
   const book = bookList[index];
   document.getElementById('edit-title').value = book.title;
   document.getElementById('edit-author').value = book.author;
+  document.getElementById('edit-publisher').value = book.publisher;
   document.getElementById('edit-description').value = book.description;
   document.getElementById('edit-form').onsubmit = function(e) {
     e.preventDefault();
     bookList[index] = {
       title: document.getElementById('edit-title').value,
       author: document.getElementById('edit-author').value,
-      publisher: book.publisher,
+      publisher: document.getElementById('edit-publisher').value,
       description: document.getElementById('edit-description').value,
       pdfUrl: book.pdfUrl
     };
@@ -94,7 +97,7 @@ function renderLibrary() {
     li.innerHTML = `
       <h3>${book.title}</h3>
       <p>Yazar: ${book.author}</p>
-      <p>Yayıncı: ${book.publisher}</p>
+      <p>Yayınevi: ${book.publisher}</p>
       <p>Açıklama: ${book.description}</p>
       ${book.pdfUrl ? `<p><a href="${book.pdfUrl}" target="_blank">PDF'yi Oku</a></p>` : ''}
       <button class="red-btn" onclick="removeFromLibrary(${index})">Kitabı Kaldır</button>
@@ -123,8 +126,14 @@ function hideEditForm() {
 
 function toggleTheme() {
   const body = document.body;
+  const themeToggle = document.getElementById('theme-toggle');
   body.classList.toggle('dark-theme');
-  
+  if (body.classList.contains('dark-theme')) {
+    themeToggle.style.backgroundColor = 'var(--theme-toggle-bg-night)';
+  } else {
+    themeToggle.style.backgroundColor = 'var(--theme-toggle-bg-day)';
+  }
+
   const themeIcon = document.getElementById('theme-icon');
   themeIcon.classList.toggle('moon');
   themeIcon.classList.toggle('sun');
