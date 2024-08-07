@@ -12,6 +12,8 @@ body {
   --text-color: #333;
   --primary-color: #4CAF50;
   --secondary-color: #2196F3;
+  --theme-toggle-bg-day: #ffeb3b;
+  --theme-toggle-bg-night: #673ab7;
 }
 
 .dark-theme {
@@ -138,7 +140,7 @@ textarea {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  background-color: transparent;
+  background-color: var(--theme-toggle-bg-day);
   border: 2px solid var(--primary-color);
   display: flex;
   justify-content: center;
@@ -204,6 +206,13 @@ textarea {
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+#edit-book-form {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 /* Mobil uyumluluk */
